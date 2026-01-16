@@ -1,0 +1,148 @@
+{
+  "version": 2,
+  "title": "Ski Lernplan – Parallelschwung (gefühlsbasiert)",
+  "goal": "Ziel nach Tag 2: blau sicher parallel, rot kontrolliert ohne Stress",
+  "footerTip": "🧠 1 Korrektur pro Abfahrt – Gefühl vor Technik",
+  "days": [
+    {
+      "id": "d1",
+      "name": "Tag 1 – Sicherheit & Außenski-Gefühl",
+      "items": [
+        {
+          "t": "Warm-up (20–30 min)",
+          "d": "Flach bis leicht blau. Große runde Bögen, Tempo nur über Linie steuern.",
+          "badge": "20–30m"
+        },
+        {
+          "t": "Seitlich Hang hochlaufen + Mini-Hop",
+          "d": "Seitlich hochlaufen, am Ende kurzer Standmoment/Mini-Hop nur auf dem Talski. Kein Springen, eher ein „Entlasten + Wieder-Aufsetzen“",
+          "badge": "2–3×2–3m"
+        },
+        {
+          "t": "Falling Leaf (kontrolliertes Rutschen)",
+          "d": "Schräg rutschen, minimal Richtung wechseln, wieder stabilisieren. Fokus: Kontrolle, nicht Schwung.",
+          "badge": "5–8m"
+        },
+        {
+          "t": "Einbein-Gleiten geradeaus",
+          "d": "Auf flachem Stück: Innenski leicht anheben oder deutlich entlasten (3–5 Sek.). Nicht in der Kurve, nur geradeaus",
+          "badge": "6–10×"
+        },
+        {
+          "t": "Pflug → Parallel am Schwungende",
+          "d": "Schwung im Pflug starten, erst am Ende beide Ski parallel zusammenführen.",
+          "badge": "20–30m"
+        },
+        {
+          "t": "Freies Fahren + Gefühl merken",
+          "d": "Nur 1 Fokus: Außenski tragen lassen. Gutes Gefühl bewusst abspeichern.",
+          "badge": "10–15m"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "name": "Tag 2 – Parallel entsteht automatisch",
+      "items": [
+        {
+          "t": "Kurze Wiederholung",
+          "d": "1× hochlaufen, 1× Falling Leaf, 1× Einbein-Gleiten.",
+          "badge": "15–20m"
+        },
+        {
+          "t": "Garlanden (halbe Schwünge)",
+          "d": "Schwung nur einleiten und abfangen. Kein kompletter Richtungswechsel.",
+          "badge": "15–20m"
+        },
+        {
+          "t": "Parallelschwung auf Blau",
+          "d": "Große Bögen, ruhiger Rhythmus. Außenski bewusst als Standbein.",
+          "badge": "30–45m"
+        },
+        {
+          "t": "Einbein-Schwung (jede 2. Kurve)",
+          "d": "Beim Schwung Innenski kurz anheben oder klar entlasten (1–2 Sek.).",
+          "badge": "10–15m"
+        },
+        {
+          "t": "Erste rote Passagen (optional)",
+          "d": "Nur wenn blau sicher. Große Bögen, kein hartes Bremsen.",
+          "badge": "10–20m"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "name": "Tag 3 – Festigen & Gebiet fahren",
+      "items": [
+        {
+          "t": "Genuss-Tag (70%)",
+          "d": "Viel fahren, wenig erklären. Technik nur bei Bedarf ansprechen.",
+          "badge": "all day"
+        },
+        {
+          "t": "Bogenweite variieren",
+          "d": "Abwechselnd etwas weitere und etwas engere Bögen – immer kontrolliert.",
+          "badge": "10–15m"
+        },
+        {
+          "t": "Verschiedene Schneearten",
+          "d": "Flacher Abschnitt, unruhiger Schnee, ggf. einfache rote.",
+          "badge": "2–3 runs"
+        },
+        {
+          "t": "Video-Check (optional)",
+          "d": "1 kurzes Video von hinten. Nur 1 positiven Punkt hervorheben.",
+          "badge": "2m"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "name": "Tag 4 – Sicherheit & Variationen",
+      "items": [
+        {
+          "t": "Technik-Auffrischung light",
+          "d": "Außenski tragen lassen, Hände vor dem Körper, Blick bergab.",
+          "badge": "10m"
+        },
+        {
+          "t": "Engere Schwünge",
+          "d": "Tempo über Linie regulieren, keine Hektik, ruhig bleiben.",
+          "badge": "10–15m"
+        },
+        {
+          "t": "Leichter Innenski (Variation)",
+          "d": "Innenski bewusst entlasten, nicht zwingend anheben.",
+          "badge": "10m"
+        },
+        {
+          "t": "Leichte Buckel / Seitenrand",
+          "d": "Nur wenn es sich gut anfühlt. Fokus: locker bleiben, nicht kämpfen.",
+          "badge": "1–2 runs"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "name": "Tag 5 – Automatismus & Spaß",
+      "items": [
+        {
+          "t": "Freies Fahren",
+          "d": "Viel Strecke machen, Pausen einbauen, Technik nicht zerdenken.",
+          "badge": "all day"
+        },
+        {
+          "t": "Notfall-Cue parat",
+          "d": "Wenn’s wackelt: große Bögen, Außenski, Blick bergab.",
+          "badge": "always"
+        },
+        {
+          "t": "Abschluss-Notiz",
+          "d": "Was hat am meisten geholfen? Für zukünftige Skitage merken.",
+          "badge": "2m"
+        }
+      ]
+    }
+  ]
+}

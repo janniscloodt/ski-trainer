@@ -328,59 +328,15 @@
 </footer>
 
 <script>
-    const PLAN = [
-        {
-            id: "d1",
-            name: "Tag 1 – Vertrauen & Gewichtsverlagerung",
-            items: [
-                { t: "Warm-up (20–30 min)", d: "Flach/blau. Große Bögen. Kein Technikstress." , badge:"20–30m" },
-                { t: "Seitlich Hang hochlaufen", d: "Klar auf dem Talski stehen. Kleine Schritte." , badge:"2–3×2m" },
-                { t: "Seitlich rutschen (Kanten)", d: "Minimal lösen, rutschen lassen, wieder aufkanten." , badge:"5–8m" },
-                { t: "Mini-Gewichtswechsel im Gleiten", d: "Parallel fahren, sanft links/rechts verlagern." , badge:"8–10m" },
-                { t: "Pflug → Parallel Übergang", d: "Schwung im Pflug starten, in Falllinie Innenski heranziehen." , badge:"20–30m" },
-                { t: "Freies Fahren + Gefühl merken", d: "Nur 1 Korrektur pro Abfahrt. Das gute Gefühl speichern." , badge:"10–15m" }
-            ]
-        },
-        {
-            id: "d2",
-            name: "Tag 2 – Parallelschwung stabil",
-            items: [
-                { t: "Kurz wiederholen", d: "1× hochlaufen, 1× rutschen, 1× Gewichtswechsel." , badge:"15–20m" },
-                { t: "Parallelschwung auf Blau", d: "Große Bögen. Außenski = Standbein." , badge:"30–45m" },
-                { t: "Rhythmus ‚1–2–3‘", d: "1 einleiten • 2 Falllinie • 3 ausfahren." , badge:"15–20m" },
-                { t: "Erste rote Passagen (optional)", d: "Nur wenn blau sicher. Größere Bögen statt hart bremsen." , badge:"10–20m" },
-                { t: "Gebietstauglich-Check", d: "Pflug nur Notbremse. Keine Panikreaktionen." , badge:"2 Abfahrten" }
-            ]
-        },
-        {
-            id: "d3",
-            name: "Tag 3 – Festigen & Gebiet fahren",
-            items: [
-                { t: "Genuss-Tag (70%)", d: "Mehr fahren, weniger drillen. Nur kleine Hinweise." , badge:"all day" },
-                { t: "Weite Bögen variieren", d: "Mal etwas enger, mal weiter – aber immer kontrolliert." , badge:"10m" },
-                { t: "Verschiedene Schneearten", d: "Unruhiger Schnee, flacher Abschnitt, ggf. leichte rote." , badge:"2–3 runs" },
-                { t: "Video-Check (optional)", d: "1 kurzes Handyvideo, nur 1 Fokuspunkt ableiten." , badge:"2m" }
-            ]
-        },
-        {
-            id: "d4",
-            name: "Tag 4 – Sicherheit & Variationen",
-            items: [
-                { t: "Kurze Technik-Auffrischung", d: "Außenski tragen lassen. Hände vor. Blick bergab." , badge:"10m" },
-                { t: "Engere Schwünge", d: "Kontrolliert, ohne Hektik. Tempo über Linie steuern." , badge:"10–15m" },
-                { t: "Leichte Buckel/Seitenrand", d: "Nur wenn Spaß. Fokus: ruhig bleiben, nicht kämpfen." , badge:"1–2 runs" }
-            ]
-        },
-        {
-            id: "d5",
-            name: "Tag 5 – Spaß & Automatismus",
-            items: [
-                { t: "Nur noch fahren", d: "Nicht mehr zerdenken. Viel Strecke, Pausen, Fotos." , badge:"all day" },
-                { t: "Notfall-Cue parat", d: "Wenn’s wackelt: große Bögen + Außenski + Blick bergab." , badge:"always" },
-                { t: "Abschluss-Notiz", d: "Was hat am meisten geholfen? Fürs nächste Mal speichern." , badge:"2m" }
-            ]
-        }
-    ];
+    let PLAN = [];
+    let state;
+
+    async function loadPlan(){
+        const res = await fetch("./plan.json", { cache: "no-store" });
+        if(!res.ok) throw new Error("plan.json konnte nicht geladen werden");
+        const data = await res.json();
+        PLAN = data.days || [];
+    }
 
     const LS_KEY = "ski_parallel_plan_v1";
 
@@ -403,7 +359,6 @@
         localStorage.setItem(LS_KEY, JSON.stringify(state));
     }
 
-    let state = loadState();
 
     const elTabs = document.getElementById("tabs");
     const elDayTitle = document.getElementById("dayTitle");
@@ -542,7 +497,19 @@
         });
     }
 
-    render();
+    (async () => {
+        await loadPlan();
+
+        state = loadState();
+
+        // Falls gespeicherter Tag nicht mehr existiert
+        if(!PLAN.find(d => d.id === state.activeDayId)){
+            state.activeDayId = PLAN[0]?.id;
+            saveState();
+        }
+
+        render();
+    })();
 </script>
 </body>
 </html>
