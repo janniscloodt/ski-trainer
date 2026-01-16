@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0ea5a6" />
+    <title>Ski Lernplan – Checkliste</title>
+
+    <link rel="manifest" href="manifest.json" />
+    <style>
+        :root{
+            --bg:#0b1220;
+            --card:#121a2b;
+            --card2:#0f172a;
+            --text:#e6eefc;
+            --muted:#9fb0d0;
+            --accent:#0ea5a6;
+            --ok:#22c55e;
+            --warn:#f59e0b;
+            --danger:#ef4444;
+            --line: rgba(255,255,255,.08);
+            --shadow: 0 10px 30px rgba(0,0,0,.35);
+            --radius: 18px;
+        }
+
+        *{box-sizing:border-box}
+        body{
+            margin:0;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+            background: radial-gradient(1000px 600px at 20% 0%, rgba(14,165,166,.25), transparent 60%),
+            radial-gradient(800px 500px at 85% 20%, rgba(99,102,241,.18), transparent 55%),
+            var(--bg);
+            color: var(--text);
+        }
+        header{
+            padding: 18px 16px 10px;
+            position: sticky;
+            top:0;
+            backdrop-filter: blur(10px);
+            background: rgba(11,18,32,.6);
+            border-bottom: 1px solid var(--line);
+            z-index: 5;
+        }
+        .title{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:12px;
+            max-width: 980px;
+            margin: 0 auto;
+        }
+        h1{font-size:18px;margin:0;font-weight:750;letter-spacing:.2px}
+        .subtitle{font-size:13px;color:var(--muted);margin-top:6px}
+        .row{
+            display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+        }
+        .btn{
+            border:1px solid var(--line);
+            background: rgba(255,255,255,.04);
+            color: var(--text);
+            padding:10px 12px;
+            border-radius: 12px;
+            font-weight:650;
+            font-size:13px;
+            cursor:pointer;
+            box-shadow: none;
+        }
+        .btn:active{transform: translateY(1px)}
+        .btn.primary{
+            background: rgba(14,165,166,.18);
+            border-color: rgba(14,165,166,.35);
+        }
+        .btn.danger{
+            background: rgba(239,68,68,.12);
+            border-color: rgba(239,68,68,.35);
+        }
+
+        main{
+            padding: 14px 16px 90px;
+            max-width: 980px;
+            margin: 0 auto;
+        }
+
+        .tabs{
+            display:flex;
+            gap:10px;
+            overflow:auto;
+            padding: 10px 0 6px;
+            scrollbar-width:none;
+        }
+        .tabs::-webkit-scrollbar{display:none}
+        .tab{
+            white-space:nowrap;
+            border:1px solid var(--line);
+            background: rgba(255,255,255,.03);
+            padding:10px 12px;
+            border-radius: 999px;
+            font-weight:750;
+            font-size:13px;
+            color: var(--muted);
+            cursor:pointer;
+        }
+        .tab.active{
+            color: var(--text);
+            background: rgba(14,165,166,.20);
+            border-color: rgba(14,165,166,.40);
+        }
+
+        .grid{
+            display:grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-top: 10px;
+        }
+        @media (min-width: 860px){
+            .grid{grid-template-columns: 1.4fr .9fr;}
+        }
+
+        .card{
+            background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow:hidden;
+        }
+        .card h2{
+            font-size:14px;
+            margin:0;
+            padding: 14px 14px 10px;
+            letter-spacing:.2px;
+        }
+        .card .content{padding: 0 14px 14px;}
+        .progressWrap{
+            padding: 12px 14px 14px;
+            border-top:1px solid var(--line);
+            background: rgba(0,0,0,.12);
+        }
+        .progressTop{display:flex; justify-content:space-between; color:var(--muted); font-size:12px; font-weight:650;}
+        .bar{
+            height: 10px;
+            border-radius: 999px;
+            background: rgba(255,255,255,.06);
+            margin-top: 8px;
+            overflow:hidden;
+            border:1px solid rgba(255,255,255,.06);
+        }
+        .bar > div{
+            height:100%;
+            width: 0%;
+            background: linear-gradient(90deg, rgba(14,165,166,.9), rgba(34,197,94,.85));
+            border-radius: 999px;
+            transition: width .25s ease;
+        }
+
+        .item{
+            display:flex;
+            align-items:flex-start;
+            gap: 12px;
+            padding: 10px 10px;
+            border-radius: 14px;
+            border:1px solid rgba(255,255,255,.05);
+            background: rgba(0,0,0,.10);
+            margin-bottom: 10px;
+        }
+        .check{
+            width: 22px;
+            height: 22px;
+            border-radius: 7px;
+            border: 2px solid rgba(255,255,255,.22);
+            display:grid;
+            place-items:center;
+            flex: 0 0 auto;
+            margin-top: 1px;
+            cursor:pointer;
+            user-select:none;
+        }
+        .check.done{
+            background: rgba(34,197,94,.18);
+            border-color: rgba(34,197,94,.55);
+        }
+        .check svg{opacity:0; transform: scale(.8); transition:.15s ease}
+        .check.done svg{opacity:1; transform: scale(1)}
+        .txt{flex: 1 1 auto}
+        .txt .t{
+            font-weight: 800;
+            font-size: 13px;
+            margin: 0;
+            line-height: 1.25;
+        }
+        .txt .d{
+            margin: 6px 0 0;
+            font-size: 12px;
+            line-height: 1.35;
+            color: var(--muted);
+        }
+        .badge{
+            font-size: 11px;
+            font-weight: 800;
+            padding: 6px 8px;
+            border-radius: 999px;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            background: rgba(255,255,255,.03);
+            white-space:nowrap;
+        }
+
+        textarea{
+            width:100%;
+            min-height: 160px;
+            resize: vertical;
+            padding: 12px 12px;
+            border-radius: 14px;
+            background: rgba(0,0,0,.18);
+            border:1px solid var(--line);
+            color: var(--text);
+            outline:none;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        textarea::placeholder{color: rgba(159,176,208,.7)}
+        .small{
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 10px;
+            line-height: 1.4;
+        }
+        .pill{
+            display:inline-block;
+            padding: 6px 10px;
+            border-radius: 999px;
+            border:1px solid var(--line);
+            background: rgba(255,255,255,.03);
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 750;
+            margin-right: 8px;
+            margin-top: 8px;
+        }
+
+        footer{
+            position: fixed;
+            left:0; right:0; bottom:0;
+            background: rgba(11,18,32,.80);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--line);
+            padding: 10px 16px;
+        }
+        footer .inner{
+            max-width: 980px;
+            margin: 0 auto;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap: 10px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+        .installHint{
+            display:none;
+        }
+        .installHint.show{
+            display:block;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="title">
+        <div>
+            <h1>⛷️ Ski Lernplan – Parallelschwung</h1>
+            <div class="subtitle" id="subtitle">Interaktive Checkliste • Offline • Speichert lokal</div>
+        </div>
+        <div class="row">
+            <button class="btn primary" id="btnResetDay">Tag zurücksetzen</button>
+            <button class="btn danger" id="btnResetAll">Alles löschen</button>
+        </div>
+    </div>
+
+    <div class="tabs" id="tabs"></div>
+</header>
+
+<main>
+    <div class="grid">
+        <section class="card">
+            <h2 id="dayTitle">Tag</h2>
+            <div class="content" id="list"></div>
+
+            <div class="progressWrap">
+                <div class="progressTop">
+                    <div id="progressText">0/0 erledigt</div>
+                    <div id="progressPct">0%</div>
+                </div>
+                <div class="bar"><div id="barFill"></div></div>
+            </div>
+        </section>
+
+        <aside class="card">
+            <h2>Notizen & Cues</h2>
+            <div class="content">
+                <textarea id="notes" placeholder="Was hat heute gut funktioniert? (z.B. ‚Außenski trägt‘, ‚Blick bergab‘, ‚große Bögen‘)"></textarea>
+
+                <div class="small">
+                    <div class="pill">Cue: Außenski trägt</div>
+                    <div class="pill">Cue: Schienbein an den Schuh</div>
+                    <div class="pill">Cue: Hände vor</div>
+                    <div class="pill">Cue: Große Bögen</div>
+                    <div class="pill">Cue: Blick bergab</div>
+                </div>
+
+                <p class="small installHint" id="installHint">
+                    Tipp: In Safari → <b>Teilen</b> → <b>Zum Home-Bildschirm</b> hinzufügen, dann wirkt’s wie eine App.
+                </p>
+            </div>
+        </aside>
+    </div>
+</main>
+
+<footer>
+    <div class="inner">
+        <div id="footerLeft">✅ Ziel nach Tag 2: blau & einfache rot parallel</div>
+        <div id="footerRight">🧠 1 Korrektur pro Abfahrt</div>
+    </div>
+</footer>
+
+<script>
+    const PLAN = [
+        {
+            id: "d1",
+            name: "Tag 1 – Vertrauen & Gewichtsverlagerung",
+            items: [
+                { t: "Warm-up (20–30 min)", d: "Flach/blau. Große Bögen. Kein Technikstress." , badge:"20–30m" },
+                { t: "Seitlich Hang hochlaufen", d: "Klar auf dem Talski stehen. Kleine Schritte." , badge:"2–3×2m" },
+                { t: "Seitlich rutschen (Kanten)", d: "Minimal lösen, rutschen lassen, wieder aufkanten." , badge:"5–8m" },
+                { t: "Mini-Gewichtswechsel im Gleiten", d: "Parallel fahren, sanft links/rechts verlagern." , badge:"8–10m" },
+                { t: "Pflug → Parallel Übergang", d: "Schwung im Pflug starten, in Falllinie Innenski heranziehen." , badge:"20–30m" },
+                { t: "Freies Fahren + Gefühl merken", d: "Nur 1 Korrektur pro Abfahrt. Das gute Gefühl speichern." , badge:"10–15m" }
+            ]
+        },
+        {
+            id: "d2",
+            name: "Tag 2 – Parallelschwung stabil",
+            items: [
+                { t: "Kurz wiederholen", d: "1× hochlaufen, 1× rutschen, 1× Gewichtswechsel." , badge:"15–20m" },
+                { t: "Parallelschwung auf Blau", d: "Große Bögen. Außenski = Standbein." , badge:"30–45m" },
+                { t: "Rhythmus ‚1–2–3‘", d: "1 einleiten • 2 Falllinie • 3 ausfahren." , badge:"15–20m" },
+                { t: "Erste rote Passagen (optional)", d: "Nur wenn blau sicher. Größere Bögen statt hart bremsen." , badge:"10–20m" },
+                { t: "Gebietstauglich-Check", d: "Pflug nur Notbremse. Keine Panikreaktionen." , badge:"2 Abfahrten" }
+            ]
+        },
+        {
+            id: "d3",
+            name: "Tag 3 – Festigen & Gebiet fahren",
+            items: [
+                { t: "Genuss-Tag (70%)", d: "Mehr fahren, weniger drillen. Nur kleine Hinweise." , badge:"all day" },
+                { t: "Weite Bögen variieren", d: "Mal etwas enger, mal weiter – aber immer kontrolliert." , badge:"10m" },
+                { t: "Verschiedene Schneearten", d: "Unruhiger Schnee, flacher Abschnitt, ggf. leichte rote." , badge:"2–3 runs" },
+                { t: "Video-Check (optional)", d: "1 kurzes Handyvideo, nur 1 Fokuspunkt ableiten." , badge:"2m" }
+            ]
+        },
+        {
+            id: "d4",
+            name: "Tag 4 – Sicherheit & Variationen",
+            items: [
+                { t: "Kurze Technik-Auffrischung", d: "Außenski tragen lassen. Hände vor. Blick bergab." , badge:"10m" },
+                { t: "Engere Schwünge", d: "Kontrolliert, ohne Hektik. Tempo über Linie steuern." , badge:"10–15m" },
+                { t: "Leichte Buckel/Seitenrand", d: "Nur wenn Spaß. Fokus: ruhig bleiben, nicht kämpfen." , badge:"1–2 runs" }
+            ]
+        },
+        {
+            id: "d5",
+            name: "Tag 5 – Spaß & Automatismus",
+            items: [
+                { t: "Nur noch fahren", d: "Nicht mehr zerdenken. Viel Strecke, Pausen, Fotos." , badge:"all day" },
+                { t: "Notfall-Cue parat", d: "Wenn’s wackelt: große Bögen + Außenski + Blick bergab." , badge:"always" },
+                { t: "Abschluss-Notiz", d: "Was hat am meisten geholfen? Fürs nächste Mal speichern." , badge:"2m" }
+            ]
+        }
+    ];
+
+    const LS_KEY = "ski_parallel_plan_v1";
+
+    function loadState(){
+        try {
+            const raw = localStorage.getItem(LS_KEY);
+            if(!raw) return { activeDayId: PLAN[0].id, done: {}, notes: {} };
+            const parsed = JSON.parse(raw);
+            return {
+                activeDayId: parsed.activeDayId || PLAN[0].id,
+                done: parsed.done || {},
+                notes: parsed.notes || {}
+            };
+        } catch {
+            return { activeDayId: PLAN[0].id, done: {}, notes: {} };
+        }
+    }
+
+    function saveState(){
+        localStorage.setItem(LS_KEY, JSON.stringify(state));
+    }
+
+    let state = loadState();
+
+    const elTabs = document.getElementById("tabs");
+    const elDayTitle = document.getElementById("dayTitle");
+    const elList = document.getElementById("list");
+    const elProgressText = document.getElementById("progressText");
+    const elProgressPct = document.getElementById("progressPct");
+    const elBarFill = document.getElementById("barFill");
+    const elNotes = document.getElementById("notes");
+    const elInstallHint = document.getElementById("installHint");
+
+    function getDay(){
+        return PLAN.find(d => d.id === state.activeDayId) || PLAN[0];
+    }
+
+    function isDone(dayId, idx){
+        return !!(state.done?.[dayId]?.[idx]);
+    }
+
+    function toggleDone(dayId, idx){
+        state.done[dayId] = state.done[dayId] || {};
+        state.done[dayId][idx] = !state.done[dayId][idx];
+        saveState();
+        render();
+    }
+
+    function resetDay(dayId){
+        if(!confirm("Diesen Tag wirklich zurücksetzen?")) return;
+        state.done[dayId] = {};
+        saveState();
+        render();
+    }
+
+    function resetAll(){
+        if(!confirm("Alles löschen (Haken + Notizen)?")) return;
+        state = { activeDayId: PLAN[0].id, done: {}, notes: {} };
+        saveState();
+        render();
+    }
+
+    function renderTabs(){
+        elTabs.innerHTML = "";
+        for(const day of PLAN){
+            const b = document.createElement("button");
+            b.className = "tab" + (day.id === state.activeDayId ? " active" : "");
+            b.textContent = day.name.split(" – ")[0]; // "Tag 1" etc.
+            b.addEventListener("click", () => {
+                state.activeDayId = day.id;
+                saveState();
+                render();
+            });
+            elTabs.appendChild(b);
+        }
+    }
+
+    function renderList(){
+        const day = getDay();
+        elDayTitle.textContent = day.name;
+
+        elList.innerHTML = "";
+        day.items.forEach((it, idx) => {
+            const wrap = document.createElement("div");
+            wrap.className = "item";
+
+            const c = document.createElement("div");
+            c.className = "check" + (isDone(day.id, idx) ? " done" : "");
+            c.innerHTML = `
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      `;
+            c.addEventListener("click", () => toggleDone(day.id, idx));
+
+            const txt = document.createElement("div");
+            txt.className = "txt";
+            txt.innerHTML = `
+        <p class="t">${it.t}</p>
+        <p class="d">${it.d}</p>
+      `;
+
+            const badge = document.createElement("div");
+            badge.className = "badge";
+            badge.textContent = it.badge || "";
+
+            wrap.appendChild(c);
+            wrap.appendChild(txt);
+            wrap.appendChild(badge);
+            elList.appendChild(wrap);
+        });
+    }
+
+    function renderProgress(){
+        const day = getDay();
+        const total = day.items.length;
+        let done = 0;
+        for(let i=0;i<total;i++) if(isDone(day.id,i)) done++;
+        const pct = total ? Math.round((done/total)*100) : 0;
+
+        elProgressText.textContent = `${done}/${total} erledigt`;
+        elProgressPct.textContent = `${pct}%`;
+        elBarFill.style.width = `${pct}%`;
+    }
+
+    function renderNotes(){
+        const day = getDay();
+        elNotes.value = state.notes?.[day.id] || "";
+    }
+
+    function renderInstallHint(){
+        // iOS Safari: Hinweis anzeigen, wenn nicht standalone
+        const isStandalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone;
+        if(!isStandalone) elInstallHint.classList.add("show");
+        else elInstallHint.classList.remove("show");
+    }
+
+    function render(){
+        renderTabs();
+        renderList();
+        renderProgress();
+        renderNotes();
+        renderInstallHint();
+    }
+
+    document.getElementById("btnResetDay").addEventListener("click", () => resetDay(getDay().id));
+    document.getElementById("btnResetAll").addEventListener("click", resetAll);
+
+    elNotes.addEventListener("input", () => {
+        const day = getDay();
+        state.notes[day.id] = elNotes.value;
+        saveState();
+    });
+
+    // Service Worker registrieren (offline)
+    if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+            navigator.serviceWorker.register("./sw.js").catch(() => {});
+        });
+    }
+
+    render();
+</script>
+</body>
+</html>
